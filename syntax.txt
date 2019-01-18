@@ -1,0 +1,8 @@
+primary: Integer
+
+# start
+S  : E
+
+E : T [+ T]*
+T : F [* F]*
+F : primary | "(" E ")"

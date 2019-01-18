@@ -1,0 +1,2 @@
+crystal build ../src/koseino.cr
+./koseino test.ksn
