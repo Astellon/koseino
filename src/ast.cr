@@ -2,18 +2,16 @@ require "./token.cr"
 
 module AST
   enum ASTType
-    None
     Expr
     AddExpr
     MulExpr
     Operator
-    Term
     Integer
   end
 
   class Node
     
-    getter ast_type = ASTType::None
+    getter ast_type : ASTType
     getter children = Array(Node).new
     
     def initialize(ast_type, *children)
