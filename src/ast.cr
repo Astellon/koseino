@@ -25,10 +25,7 @@ module AST
 
   class Leaf < Node
     getter token : Token::Token
-    def initialize(ast_type, token)
-      @ast_type = ast_type
-      @token = token
-    end
+    def initialize(@ast_type, @token) end
   end
 
 end
