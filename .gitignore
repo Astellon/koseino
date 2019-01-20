@@ -1,2 +1,8 @@
+/docs/
+/lib/
+/bin/
+/.shards/
+*.dwarf
+
 .crystal
 koseino

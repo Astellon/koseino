@@ -2,6 +2,10 @@ require "./lexeme.cr"
 require "./ast.cr"
 require "./parser.cr"
 
+module Koseino
+  VERSION = "0.1.0"
+end
+
 lexer = Lexeme::Lexer.new
 filename = ARGV[0]
 
