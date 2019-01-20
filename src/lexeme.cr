@@ -1,13 +1,13 @@
 require "./token.cr"
 
-module Lexeme
+module Koseino
 
   class Lexer
     
     getter tokens
     
     def initialize()
-      @tokens = Array(Token::Token).new
+      @tokens = Array(Token).new
     end
 
     private def skipwhitespace(str)
@@ -29,16 +29,16 @@ module Lexeme
       line = skipwhitespace(line)
 
       while !line.empty?
-        key, token = match(line, Token.regs)
+        key, token = match(line, Koseino.regs)
       
-        @tokens.push(Token::Token.new(token, key))
+        @tokens.push(Token.new(token, key))
         
         line = line[token.size...line.size]
         line = skipwhitespace(line)  
       end
 
       # end of line token
-      @tokens.push(Token::Token.new("$", Token::TokenKind::EOL))
+      @tokens.push(Token.new("$", TokenKind::EOL))
     end
 
     def dumpTokens()

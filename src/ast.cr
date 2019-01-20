@@ -1,6 +1,6 @@
 require "./token.cr"
 
-module AST
+module Koseino
   enum ASTType
     Expr
     AddExpr
@@ -24,7 +24,7 @@ module AST
   end
 
   class Leaf < Node
-    getter token : Token::Token
+    getter token : Token
     def initialize(@ast_type, @token) end
   end
 

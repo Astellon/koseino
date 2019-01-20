@@ -1,13 +1,13 @@
 require "./token.cr"
 require "./ast.cr"
 
-module Parser
+module Koseino
 
   class Parser
 
     def parse_factor(tokens, pos)
-      if tokens[pos].kind == Token::TokenKind::Integer
-        return AST::Leaf.new(AST::ASTType::Integer, tokens[pos]), pos
+      if tokens[pos].kind == TokenKind::Integer
+        return Leaf.new(ASTType::Integer, tokens[pos]), pos
       elsif tokens[pos].literal == "("
         ast, pos = parse_expr(tokens, pos+1)
         pos += 1  # skip ")"
@@ -20,15 +20,15 @@ module Parser
     
     
     def parse_term(tokens, pos)
-      if tokens[pos].kind == Token::TokenKind::Integer || tokens[pos].literal == "("
+      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "("
         lhs, pos = parse_factor(tokens, pos)
-        while tokens[pos+1].kind != Token::TokenKind::EOL
+        while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "*" && tokens[pos+1].literal != "/"
             break
           end
-          op  = AST::Leaf.new(AST::ASTType::Operator, tokens[pos+1])
+          op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_factor(tokens, pos+2)
-          lhs = AST::Node.new(AST::ASTType::MulExpr, lhs, op, rhs)
+          lhs = Node.new(ASTType::MulExpr, lhs, op, rhs)
         end
         return lhs, pos
       else
@@ -38,15 +38,15 @@ module Parser
     end
      
     def parse_expr(tokens, pos)
-      if tokens[pos].kind == Token::TokenKind::Integer || tokens[pos].literal == "("
+      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "("
         lhs, pos = parse_term(tokens, pos)
-        while tokens[pos+1].kind != Token::TokenKind::EOL
+        while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "+" && tokens[pos+1].literal != "-"
             break
           end
-          op  = AST::Leaf.new(AST::ASTType::Operator, tokens[pos+1])
+          op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_term(tokens, pos+2)
-          lhs = AST::Node.new(AST::ASTType::AddExpr, lhs, op, rhs)
+          lhs = Node.new(ASTType::AddExpr, lhs, op, rhs)
         end
         return lhs, pos
       else
@@ -58,7 +58,7 @@ module Parser
     
     def parse(tokens, pos)
       expr, pos = parse_expr(tokens, pos)
-      return AST::Node.new(AST::ASTType::Expr, expr), pos
+      return Node.new(ASTType::Expr, expr), pos
     end
 
     def dumpAST(ast, depth)
@@ -69,7 +69,7 @@ module Parser
       end
     end
     
-    def dumpAST(ast : AST::Leaf, depth)
+    def dumpAST(ast : Leaf, depth)
       puts "#{" "*depth}+- #{ast.try &.ast_type} #{ast.try &.token.literal}"
     end
 

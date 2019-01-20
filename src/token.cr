@@ -1,4 +1,4 @@
-module Token
+module Koseino
 
   enum TokenKind
     Integer
