@@ -1,7 +1,7 @@
 # start
 S  : expr
 
-expr = term [+ term]*
-term = factor [* factor]*
-factor = primary | identifier "(" expr ")" | "(" expr ")"
-primary = integer
+expr     = add_expr
+add_expr = mul_expr [+ mul_expr]* 
+mul_expr = factor   [* factor]* 
+factor   = integer | identifier | identifier "(" expr ")" | "(" expr ")"

@@ -2,6 +2,7 @@ require "./token.cr"
 
 module Koseino
   enum ASTType
+    Root
     Expr
     AddExpr
     MulExpr

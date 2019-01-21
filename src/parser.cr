@@ -23,7 +23,7 @@ module Koseino
     end
     
     
-    def parse_term(tokens, pos)
+    def parse_mul_expr(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_factor(tokens, pos)
         while tokens[pos+1].kind != TokenKind::EOL
@@ -41,15 +41,15 @@ module Koseino
       end
     end
      
-    def parse_expr(tokens, pos)
+    def parse_add_expr(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
-        lhs, pos = parse_term(tokens, pos)
+        lhs, pos = parse_mul_expr(tokens, pos)
         while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "+" && tokens[pos+1].literal != "-"
             break
           end
           op  = Leaf.new(ASTType::Operator, tokens[pos+1])
-          rhs, pos = parse_term(tokens, pos+2)
+          rhs, pos = parse_mul_expr(tokens, pos+2)
           lhs = Node.new(ASTType::AddExpr, lhs, op, rhs)
         end
         return lhs, pos
@@ -59,10 +59,15 @@ module Koseino
         exit 1
       end
     end
+
+    def parse_expr(token, pos)
+      add_expr, pos = parse_add_expr(token, pos)
+      return Node.new(ASTType::Expr, add_expr), pos
+    end
     
     def parse(tokens, pos)
       expr, pos = parse_expr(tokens, pos)
-      return Node.new(ASTType::Expr, expr), pos
+      return Node.new(ASTType::Root, expr), pos
     end
 
     def dumpAST(ast, depth)
