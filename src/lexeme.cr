@@ -34,7 +34,7 @@ module Koseino
         @tokens.push(Token.new(token, key))
         
         line = line[token.size...line.size]
-        line = skipwhitespace(line)  
+        line = skipwhitespace(line)
       end
 
       # end of line token

@@ -1,6 +1,7 @@
 module Koseino
 
   enum TokenKind
+    Identifier
     Integer
     Operator
     Symbols
@@ -9,6 +10,7 @@ module Koseino
   end
 
   @@regs = {
+    TokenKind::Identifier => /[A-Z|a-z]+/,
     TokenKind::Integer  => /[1-9][0-9]*/,
     TokenKind::Operator => /[+|\-|*|\/]/,
     TokenKind::Symbols  => /[\(\)]/

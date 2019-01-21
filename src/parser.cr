@@ -12,6 +12,10 @@ module Koseino
         ast, pos = parse_expr(tokens, pos+1)
         pos += 1  # skip ")"
         return ast, pos
+      elsif tokens[pos].kind == TokenKind::Identifier
+        id = Leaf.new(ASTType::Identifier, tokens[pos])
+        arg, pos = parse_expr(tokens, pos+2)
+        return Node.new(ASTType::Call, id, arg), pos+1
       else
         puts "unknown token in parse_factor"
         exit 1
@@ -20,7 +24,7 @@ module Koseino
     
     
     def parse_term(tokens, pos)
-      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "("
+      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_factor(tokens, pos)
         while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "*" && tokens[pos+1].literal != "/"
@@ -38,7 +42,7 @@ module Koseino
     end
      
     def parse_expr(tokens, pos)
-      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "("
+      if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_term(tokens, pos)
         while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "+" && tokens[pos+1].literal != "-"

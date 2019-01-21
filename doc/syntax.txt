@@ -1,8 +1,7 @@
-primary: Integer
-
 # start
-S  : E
+S  : expr
 
-E : T [+ T]*
-T : F [* F]*
-F : primary | "(" E ")"
+expr = term [+ term]*
+term = factor [* factor]*
+factor = primary | identifier "(" expr ")" | "(" expr ")"
+primary = integer

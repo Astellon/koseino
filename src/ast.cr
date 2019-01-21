@@ -6,7 +6,9 @@ module Koseino
     AddExpr
     MulExpr
     Operator
+    Call
     Integer
+    Identifier
   end
 
   class Node

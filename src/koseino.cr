@@ -19,9 +19,14 @@ module Koseino
   lexer.dumpTokens()
   ## =================
   
+  # parse tokens
   parser = Parser.new
-  
   root, pos = parser.parse(lexer.tokens, 0)
-  
+
+  ## ===== debug =====
   parser.dumpAST(root, 0)
+  ## =================
+
+  # eval ast
+  
 end
