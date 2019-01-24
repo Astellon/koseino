@@ -1,6 +1,7 @@
 require "./lexeme.cr"
 require "./ast.cr"
 require "./parser.cr"
+require "./eval.cr"
 
 module Koseino
   VERSION = "0.1.0"
@@ -28,5 +29,6 @@ module Koseino
   ## =================
 
   # eval ast
-  
+  evaluater = Evaluater.new()
+  evaluater.eval(root)
 end

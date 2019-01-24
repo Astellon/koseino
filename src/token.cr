@@ -1,6 +1,7 @@
 module Koseino
 
   enum TokenKind
+    None
     Identifier
     Integer
     Operator

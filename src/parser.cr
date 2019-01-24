@@ -15,7 +15,7 @@ module Koseino
       elsif tokens[pos].kind == TokenKind::Identifier
         id = Leaf.new(ASTType::Identifier, tokens[pos])
         arg, pos = parse_expr(tokens, pos+2)
-        return Node.new(ASTType::Factor, Node.new(ASTType::Call, id, arg)), pos+1
+        return Node.new(ASTType::Factor, id, arg), pos+1
       else
         puts "unknown token in parse_factor"
         exit 1
