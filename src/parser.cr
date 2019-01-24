@@ -34,7 +34,6 @@ module Koseino
           op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_factor(tokens, pos+2)
           ast.add(op, rhs)
-          puts ast.ast_type
         end
         return ast, pos
       else
@@ -54,7 +53,6 @@ module Koseino
           op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_mul_expr(tokens, pos+2)
           ast.add(op, rhs)
-          puts ast.ast_type
         end
         return ast, pos
       else
