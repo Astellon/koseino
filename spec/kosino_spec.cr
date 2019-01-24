@@ -11,16 +11,16 @@ describe Koseino do
   describe "evaluate" do
     it "print(1+1+1+1)" do
       io = IO::Memory.new
-      t = Koseino::Lexer.new().parse("print(1+1+1+1)").tokens
-      root, pos = Koseino::Parser.new().parse(t, 0)
+      t = Koseino::Lexer.new.parse("print(1+1+1+1)").tokens
+      root, pos = Koseino::Parser.new.parse(t, 0)
       Koseino::Evaluater.new(io).eval(root)
       io.to_s.should eq "4\n"
     end
 
     it "print(10*2-(5+5)*2+10)" do
       io = IO::Memory.new
-      t = Koseino::Lexer.new().parse("print(10*2-(5+5)*2+10)").tokens
-      root, pos = Koseino::Parser.new().parse(t, 0)
+      t = Koseino::Lexer.new.parse("print(10*2-(5+5)*2+10)").tokens
+      root, pos = Koseino::Parser.new.parse(t, 0)
       Koseino::Evaluater.new(io).eval(root)
       io.to_s.should eq "10\n"
     end

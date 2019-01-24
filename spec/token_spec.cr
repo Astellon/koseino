@@ -14,9 +14,9 @@ describe Koseino::Token do
     end
 
     it "match Operator" do
-      ["+", "-", "*", "\/"].each do |op| 
+      ["+", "-", "*", "\/"].each do |op|
         op.match(Koseino.regs[Koseino::TokenKind::Operator]).nil?.should be_false
-      end     
+      end
     end
 
     it "match Symbel" do

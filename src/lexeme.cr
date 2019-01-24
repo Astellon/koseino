@@ -1,12 +1,10 @@
 require "./token.cr"
 
 module Koseino
-
   class Lexer
-    
     getter tokens
-    
-    def initialize()
+
+    def initialize
       @tokens = Array(Token).new
     end
 
@@ -30,9 +28,9 @@ module Koseino
 
       while !line.empty?
         key, token = match(line, Koseino.regs)
-      
+
         @tokens.push(Token.new(token, key))
-        
+
         line = line[token.size...line.size]
         line = skipwhitespace(line)
       end
@@ -42,12 +40,11 @@ module Koseino
       return self
     end
 
-    def dumpTokens()
+    def dumpTokens
       @tokens.each do |tk|
         puts "#{tk.kind}: #{tk.literal}"
       end
     end
-  
-  end  # class Lexer
+  end # class Lexer
 
-end  # module Lexeme
+end # module Lexeme

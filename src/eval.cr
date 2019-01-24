@@ -4,7 +4,8 @@ module Koseino
   class Evaluater
     @io : IO
 
-    def initialize(@io) end
+    def initialize(@io)
+    end
 
     def eval(ast : Node)
       return eval_expr(ast.children[0])
@@ -15,15 +16,15 @@ module Koseino
     end
 
     def eval_add_expr(ast : Node)
-      lhs = eval_mul_expr(ast.children[0])  # first argument
+      lhs = eval_mul_expr(ast.children[0]) # first argument
       return lhs if ast.children.size == 1
-      
-      pos = 1  # look operator
+
+      pos = 1 # look operator
       while pos < ast.children.size
         if ast.children[pos].token.literal == "+"
-          lhs += eval_mul_expr(ast.children[pos+1])
+          lhs += eval_mul_expr(ast.children[pos + 1])
         elsif ast.children[pos].token.literal == "-"
-          lhs -= eval_mul_expr(ast.children[pos+1])
+          lhs -= eval_mul_expr(ast.children[pos + 1])
         end
         pos += 2
       end
@@ -31,15 +32,15 @@ module Koseino
     end
 
     def eval_mul_expr(ast : Node)
-      lhs = eval_factor(ast.children[0])  # first argument
+      lhs = eval_factor(ast.children[0]) # first argument
       return lhs if ast.children.size == 1
-      
-      pos = 1  # look operator
+
+      pos = 1 # look operator
       while pos < ast.children.size
         if ast.children[pos].token.literal == "*"
-          lhs *= eval_factor(ast.children[pos+1])
+          lhs *= eval_factor(ast.children[pos + 1])
         elsif ast.children[pos].token.literal == "/"
-          lhs /= eval_factor(ast.children[pos+1])
+          lhs /= eval_factor(ast.children[pos + 1])
         end
         pos += 2
       end
@@ -61,7 +62,7 @@ module Koseino
         puts "unknown ast #{ast.children[0].ast_type}"
         exit 1
       end
-      return 0  # not retru nil
+      return 0 # not retru nil
     end
   end
 end
