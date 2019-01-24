@@ -7,15 +7,15 @@ module Koseino
 
     def parse_factor(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer
-        return Leaf.new(ASTType::Integer, tokens[pos]), pos
+        return Node.new(ASTType::Factor, Leaf.new(ASTType::Integer, tokens[pos])), pos
       elsif tokens[pos].literal == "("
         ast, pos = parse_expr(tokens, pos+1)
         pos += 1  # skip ")"
-        return ast, pos
+        return Node.new(ASTType::Factor, ast), pos
       elsif tokens[pos].kind == TokenKind::Identifier
         id = Leaf.new(ASTType::Identifier, tokens[pos])
         arg, pos = parse_expr(tokens, pos+2)
-        return Node.new(ASTType::Call, id, arg), pos+1
+        return Node.new(ASTType::Factor, Node.new(ASTType::Call, id, arg)), pos+1
       else
         puts "unknown token in parse_factor"
         exit 1
@@ -26,15 +26,17 @@ module Koseino
     def parse_mul_expr(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_factor(tokens, pos)
+        ast = Node.new(ASTType::MulExpr, lhs)
         while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "*" && tokens[pos+1].literal != "/"
             break
           end
           op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_factor(tokens, pos+2)
-          lhs = Node.new(ASTType::MulExpr, lhs, op, rhs)
+          ast.add(op, rhs)
+          puts ast.ast_type
         end
-        return lhs, pos
+        return ast, pos
       else
         puts "unkown token in parse_term"
         exit 1
@@ -44,15 +46,17 @@ module Koseino
     def parse_add_expr(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_mul_expr(tokens, pos)
+        ast = Node.new(ASTType::AddExpr, lhs)
         while tokens[pos+1].kind != TokenKind::EOL
           if tokens[pos+1].literal != "+" && tokens[pos+1].literal != "-"
             break
           end
           op  = Leaf.new(ASTType::Operator, tokens[pos+1])
           rhs, pos = parse_mul_expr(tokens, pos+2)
-          lhs = Node.new(ASTType::AddExpr, lhs, op, rhs)
+          ast.add(op, rhs)
+          puts ast.ast_type
         end
-        return lhs, pos
+        return ast, pos
       else
         puts "unkown token in parse"
         puts "@#{pos} tokens:#{tokens[pos]}"

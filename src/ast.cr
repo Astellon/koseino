@@ -6,6 +6,7 @@ module Koseino
     Expr
     AddExpr
     MulExpr
+    Factor
     Operator
     Call
     Integer
@@ -20,6 +21,13 @@ module Koseino
     def initialize(ast_type, *children)
       @ast_type = ast_type
       children.each do |child|
+        next if child.nil?
+        @children.push(child)
+      end
+    end
+
+    def add(*ast)
+      ast.each do |child|
         next if child.nil?
         @children.push(child)
       end
