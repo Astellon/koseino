@@ -39,6 +39,7 @@ module Koseino
 
       # end of line token
       @tokens.push(Token.new("$", TokenKind::EOL))
+      return self
     end
 
     def dumpTokens()

@@ -29,6 +29,6 @@ module Koseino
   ## =================
 
   # eval ast
-  evaluater = Evaluater.new()
+  evaluater = Evaluater.new(STDOUT)
   evaluater.eval(root)
 end

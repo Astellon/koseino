@@ -2,6 +2,10 @@ require "./ast.cr"
 
 module Koseino
   class Evaluater
+    @io : IO
+
+    def initialize(@io) end
+
     def eval(ast : Node)
       return eval_expr(ast.children[0])
     end
@@ -47,9 +51,12 @@ module Koseino
         return ast.children[0].token.literal.to_i64
       elsif ast.children[0].ast_type == ASTType::Identifier
         if ast.children[0].token.literal == "print"
-          puts eval_expr(ast.children[1])
-          return 0
+          str = eval_expr(ast.children[1]).to_s
+          @io.puts str
+          return str.size
         end
+      elsif ast.children[0].ast_type == ASTType::Expr
+        return eval_expr(ast.children[0])
       else
         puts "unknown ast #{ast.children[0].ast_type}"
         exit 1
