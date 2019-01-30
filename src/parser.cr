@@ -2,7 +2,7 @@ module Koseino
   class Parser
     def parse_factor(tokens, pos)
       if tokens[pos].kind == TokenKind::Integer
-        return Node.new(ASTType::Factor, Leaf.new(ASTType::Integer, tokens[pos])), pos
+        return Node.new(ASTType::Factor, Leaf.new(ASTType::Integer, tokens[pos])), pos + 1
       elsif tokens[pos].literal == "("
         ast, pos = parse_expr(tokens, pos + 1)
         pos += 1 # skip ")"
@@ -21,12 +21,12 @@ module Koseino
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_factor(tokens, pos)
         ast = Node.new(ASTType::MulExpr, lhs)
-        while tokens[pos + 1].kind != TokenKind::EOL
-          if tokens[pos + 1].literal != "*" && tokens[pos + 1].literal != "/"
+        while tokens[pos].kind != TokenKind::EOL
+          if tokens[pos].literal != "*" && tokens[pos].literal != "/"
             break
           end
-          op = Leaf.new(ASTType::Operator, tokens[pos + 1])
-          rhs, pos = parse_factor(tokens, pos + 2)
+          op = Leaf.new(ASTType::Operator, tokens[pos])
+          rhs, pos = parse_factor(tokens, pos + 1)
           ast.add(op, rhs)
         end
         return ast, pos
@@ -40,12 +40,12 @@ module Koseino
       if tokens[pos].kind == TokenKind::Integer || tokens[pos].literal == "(" || tokens[pos].kind == TokenKind::Identifier
         lhs, pos = parse_mul_expr(tokens, pos)
         ast = Node.new(ASTType::AddExpr, lhs)
-        while tokens[pos + 1].kind != TokenKind::EOL
-          if tokens[pos + 1].literal != "+" && tokens[pos + 1].literal != "-"
+        while tokens[pos].kind != TokenKind::EOL
+          if tokens[pos].literal != "+" && tokens[pos].literal != "-"
             break
           end
-          op = Leaf.new(ASTType::Operator, tokens[pos + 1])
-          rhs, pos = parse_mul_expr(tokens, pos + 2)
+          op = Leaf.new(ASTType::Operator, tokens[pos])
+          rhs, pos = parse_mul_expr(tokens, pos + 1)
           ast.add(op, rhs)
         end
         return ast, pos
