@@ -1,4 +1,6 @@
 require "spec"
+
+require "../src/token.cr"
 require "../src/lexeme.cr"
 
 describe Koseino::Lexer do

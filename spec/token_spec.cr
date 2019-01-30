@@ -1,4 +1,5 @@
 require "spec"
+
 require "../src/token.cr"
 
 describe Koseino::Token do

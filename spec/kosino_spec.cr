@@ -3,7 +3,10 @@ require "spec"
 # require "../src/koseino.cr"
 
 # equiv
+
+require "../src/token.cr"
 require "../src/lexeme.cr"
+require "../src/ast.cr"
 require "../src/parser.cr"
 require "../src/eval.cr"
 
