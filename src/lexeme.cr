@@ -1,5 +1,3 @@
-require "./token.cr"
-
 module Koseino
   class Lexer
     getter tokens

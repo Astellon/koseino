@@ -1,5 +1,3 @@
-require "./ast.cr"
-
 module Koseino
   class Evaluater
     @io : IO

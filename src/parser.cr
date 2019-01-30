@@ -1,6 +1,3 @@
-require "./token.cr"
-require "./ast.cr"
-
 module Koseino
   class Parser
     def parse_factor(tokens, pos)
