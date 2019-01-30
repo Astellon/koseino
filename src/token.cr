@@ -1,19 +1,22 @@
 module Koseino
   enum TokenKind
     None
-    Identifier
     Integer
     Operator
     Symbols
+    Assign
+    Identifier
     # other tokens ...
     EOL # end of line
   end
 
   @@regs = {
-    TokenKind::Identifier => /[A-Z|a-z]+/,
     TokenKind::Integer    => /[1-9][0-9]*/,
     TokenKind::Operator   => /[+|\-|*|\/]/,
-    TokenKind::Symbols    => /[\(\)]/, # other tokens ...
+    TokenKind::Symbols    => /[\(|\)]/, 
+    TokenKind::Assign     => /[=]/,
+    TokenKind::Identifier => /[A-Z|a-z]+/,
+    # other tokens ...
   }
 
   def self.regs

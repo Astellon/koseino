@@ -5,15 +5,16 @@ module Koseino
         return Node.new(ASTType::Factor, Leaf.new(ASTType::Integer, tokens[pos])), pos + 1
       elsif tokens[pos].literal == "("
         ast, pos = parse_expr(tokens, pos + 1)
-        pos += 1 # skip ")"
-        return Node.new(ASTType::Factor, ast), pos
+        return Node.new(ASTType::Factor, ast), pos + 1 # skip ")"
       elsif tokens[pos].kind == TokenKind::Identifier
         id = Leaf.new(ASTType::Identifier, tokens[pos])
-        arg, pos = parse_expr(tokens, pos + 2)
-        return Node.new(ASTType::Factor, id, arg), pos + 1
+        if tokens[pos+1].literal == "("
+          arg, pos = parse_expr(tokens, pos + 2)
+          return Node.new(ASTType::Factor, id, arg), pos + 1
+        end
+        return Node.new(ASTType::Factor, id), pos + 1
       else
-        puts "unknown token in parse_factor"
-        exit 1
+        abort("unkown token @#{pos} token:#{tokens[pos].literal}")
       end
     end
 
@@ -31,8 +32,7 @@ module Koseino
         end
         return ast, pos
       else
-        puts "unkown token in parse_term"
-        exit 1
+        abort("unkown token @#{pos} token:#{tokens[pos].literal}")
       end
     end
 
@@ -50,15 +50,22 @@ module Koseino
         end
         return ast, pos
       else
-        puts "unkown token in parse"
-        puts "@#{pos} tokens:#{tokens[pos]}"
-        exit 1
+        abort("unkown token @#{pos} token:#{tokens[pos].literal}")
       end
     end
 
-    def parse_expr(token, pos)
-      add_expr, pos = parse_add_expr(token, pos)
-      return Node.new(ASTType::Expr, add_expr), pos
+    def parse_expr(tokens, pos)
+      if tokens[pos].kind == TokenKind::Identifier && tokens[pos+1].kind == TokenKind::Assign
+        id = Leaf.new(ASTType::Identifier, tokens[pos])
+        value, pos = parse_expr(tokens, pos+2)
+        assign = Node.new(ASTType::Assign, id, value)
+        return Node.new(ASTType::Expr, assign), pos
+      elsif tokens[pos].kind == TokenKind::Identifier  || tokens[pos].kind == TokenKind::Integer
+        add_expr, pos = parse_add_expr(tokens, pos)
+        return Node.new(ASTType::Expr, add_expr), pos
+      else
+        abort("unkown token @#{pos} token:#{tokens[pos].literal}")
+      end
     end
 
     def parse(tokens, pos)

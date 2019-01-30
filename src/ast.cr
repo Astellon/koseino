@@ -6,6 +6,7 @@ module Koseino
     MulExpr
     Factor
     Operator
+    Assign
     Call
     Integer
     Identifier

@@ -16,8 +16,7 @@ module Koseino
         next if m.nil?
         return key, m[0]
       end
-      puts "Unknow Token #{str}"
-      exit 1
+      abort("Unknow Token #{str}")
     end
 
     def parse(line)
@@ -39,8 +38,10 @@ module Koseino
     end
 
     def dumpTokens
+      i = 0
       @tokens.each do |tk|
-        puts "#{tk.kind}: #{tk.literal}"
+        puts "#{i}: #{tk.kind}: #{tk.literal}"
+        i += 1
       end
     end
   end # class Lexer

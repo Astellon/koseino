@@ -1,7 +1,7 @@
 # start
 S  : [expr $]+
 
-expr     = add_expr
+expr     = add_expr | identifier "=" expr
 add_expr = mul_expr [+ mul_expr]* 
 mul_expr = factor   [* factor]* 
 factor   = integer | identifier | identifier "(" expr ")" | "(" expr ")"

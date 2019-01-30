@@ -1,8 +1,8 @@
 module Koseino
   class Evaluater
-    @io : IO
-
-    def initialize(@io = STDOUT)
+    def initialize(io : IO = STDOUT)
+      @io = io
+      @syms = SymbolTable.new
     end
 
     def eval(ast : Node)
@@ -12,7 +12,20 @@ module Koseino
     end
 
     def eval_expr(ast : Node)
-      return eval_add_expr(ast.children[0])
+      if ast.children[0].ast_type == ASTType::Assign
+        return eval_assign(ast.children[0])
+      elsif ast.children[0].ast_type == ASTType::AddExpr
+        return eval_add_expr(ast.children[0])
+      else
+        abort("unknown node of #{ast.ast_type}: #{ast.token.literal}")
+      end
+    end
+
+    def eval_assign(ast : Node)
+      name  = ast.children[0].token.literal
+      value = eval_expr(ast.children[1])
+      @syms << Identifier.new(name, value)
+      return value
     end
 
     def eval_add_expr(ast : Node)
@@ -49,18 +62,20 @@ module Koseino
 
     def eval_factor(ast : Node)
       if ast.children[0].ast_type == ASTType::Integer
-        return ast.children[0].token.literal.to_i64
+        return ast.children[0].token.literal.to_i32
       elsif ast.children[0].ast_type == ASTType::Identifier
         if ast.children[0].token.literal == "print"
           str = eval_expr(ast.children[1]).to_s
           @io.puts str
           return str.size
+        else
+          id = @syms.get(ast.children[0].token.literal)
+          return id.value
         end
       elsif ast.children[0].ast_type == ASTType::Expr
         return eval_expr(ast.children[0])
       else
-        puts "unknown ast #{ast.children[0].ast_type}"
-        exit 1
+        abort("unknown node of #{ast.ast_type}: #{ast.token.literal}")
       end
       return 0 # not retru nil
     end

@@ -8,6 +8,7 @@ require "../src/token.cr"
 require "../src/lexeme.cr"
 require "../src/ast.cr"
 require "../src/parser.cr"
+require "../src/symbol.cr"
 require "../src/eval.cr"
 
 describe Koseino do

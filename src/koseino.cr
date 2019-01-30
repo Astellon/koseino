@@ -4,6 +4,7 @@ require "./token.cr"
 require "./lexeme.cr"
 require "./ast.cr"
 require "./parser.cr"
+require "./symbol.cr"
 require "./eval.cr"
 
 module Koseino
