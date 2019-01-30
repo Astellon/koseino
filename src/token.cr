@@ -13,7 +13,7 @@ module Koseino
     TokenKind::Identifier => /[A-Z|a-z]+/,
     TokenKind::Integer    => /[1-9][0-9]*/,
     TokenKind::Operator   => /[+|\-|*|\/]/,
-    TokenKind::Symbols    => /[\(\)]/ # other tokens ...
+    TokenKind::Symbols    => /[\(\)]/, # other tokens ...
   }
 
   def self.regs
