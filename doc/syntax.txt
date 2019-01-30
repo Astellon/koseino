@@ -1,5 +1,5 @@
 # start
-S  : expr
+S  : [expr $]+
 
 expr     = add_expr
 add_expr = mul_expr [+ mul_expr]* 

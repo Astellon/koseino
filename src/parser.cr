@@ -62,8 +62,13 @@ module Koseino
     end
 
     def parse(tokens, pos)
-      expr, pos = parse_expr(tokens, pos)
-      return Node.new(ASTType::Root, expr), pos
+      root = Node.new(ASTType::Root)
+      while pos < tokens.size
+        expr, pos = parse_expr(tokens, pos)
+        root.add(expr)
+        pos += 1 # skip $
+      end
+      return root, pos
     end
 
     def dumpAST(ast, depth)

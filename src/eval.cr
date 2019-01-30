@@ -6,7 +6,9 @@ module Koseino
     end
 
     def eval(ast : Node)
-      return eval_expr(ast.children[0])
+      ast.children.each do |child|
+        eval_expr(child)
+      end
     end
 
     def eval_expr(ast : Node)

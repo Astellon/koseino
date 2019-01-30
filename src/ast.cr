@@ -16,6 +16,10 @@ module Koseino
     getter token = Token.new("", TokenKind::None)
     getter children = Array(Node).new
 
+    def initialize(ast_type)
+      @ast_type = ast_type
+    end
+
     def initialize(ast_type, *children)
       @ast_type = ast_type
       children.each do |child|
