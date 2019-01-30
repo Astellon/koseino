@@ -2,7 +2,7 @@ module Koseino
   class Evaluater
     @io : IO
 
-    def initialize(@io)
+    def initialize(@io = STDOUT)
     end
 
     def eval(ast : Node)

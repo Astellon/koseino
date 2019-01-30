@@ -38,7 +38,7 @@ module Koseino
   # instances
   lexer = Lexer.new
   parser = Parser.new
-  evaluater = Evaluater.new(STDOUT)
+  evaluater = Evaluater.new()
 
   # read file and lexeme analysis
   File.open(fn) do |io|
