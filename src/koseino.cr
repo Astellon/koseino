@@ -20,10 +20,10 @@ module Koseino
   end
 
   # get file name
-  fn  = ""
+  fn = ""
   ext = ".ksn"
-  
-  ARGV.each do | arg |
+
+  ARGV.each do |arg|
     if arg.ends_with?(ext)
       if fn == ""
         fn = arg
@@ -38,7 +38,7 @@ module Koseino
   # instances
   lexer = Lexer.new
   parser = Parser.new
-  evaluater = Evaluater.new()
+  evaluater = Evaluater.new
 
   # read file and lexeme analysis
   File.open(fn) do |io|
