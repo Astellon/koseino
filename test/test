@@ -1,2 +1,2 @@
 crystal build ../src/koseino.cr
-./koseino test.ksn
+./koseino test.ksn -d
